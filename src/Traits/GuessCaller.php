@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace DigitalCreative\NovaDashboard\Traits;
+namespace MlSolutions\NovaDashboard\Traits;
 
 use Laravel\Nova\Resource;
 use Laravel\Nova\Dashboard;

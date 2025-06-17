@@ -2,10 +2,10 @@
 
 declare(strict_types = 1);
 
-namespace DigitalCreative\NovaDashboard\Card;
+namespace MlSolutions\NovaDashboard\Card;
 
-use DigitalCreative\NovaDashboard\Filters;
-use DigitalCreative\NovaDashboard\Traits\GuessCaller;
+use MlSolutions\NovaDashboard\Filters;
+use MlSolutions\NovaDashboard\Traits\GuessCaller;
 use Laravel\Nova\Element;
 use Laravel\Nova\Http\Requests\NovaRequest;
 

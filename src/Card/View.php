@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace DigitalCreative\NovaDashboard\Card;
+namespace MlSolutions\NovaDashboard\Card;
 
-use DigitalCreative\NovaDashboard\Traits\ResolveView;
+use MlSolutions\NovaDashboard\Traits\ResolveView;
 use Illuminate\Support\Collection;
 use JsonSerializable;
 use Laravel\Nova\AuthorizedToSee;

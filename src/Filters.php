@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace DigitalCreative\NovaDashboard;
+namespace MlSolutions\NovaDashboard;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;

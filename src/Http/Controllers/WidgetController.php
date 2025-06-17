@@ -2,9 +2,9 @@
 
 declare(strict_types = 1);
 
-namespace DigitalCreative\NovaDashboard\Http\Controllers;
+namespace MlSolutions\NovaDashboard\Http\Controllers;
 
-use DigitalCreative\NovaDashboard\Card\View;
+use MlSolutions\NovaDashboard\Card\View;
 use Illuminate\Http\JsonResponse;
 use Laravel\Nova\Http\Requests\NovaRequest;
 

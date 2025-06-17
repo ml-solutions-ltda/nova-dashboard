@@ -9,4 +9,4 @@ mix
   .vue({ version: 3 })
   .postCss('resources/css/card.css', 'css')
   .tailwind()
-  .nova('digital-creative/nova-dashboard')
+  .nova('mlsolutions/nova-dashboard')

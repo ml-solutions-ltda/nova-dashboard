@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace DigitalCreative\NovaDashboard\Card;
+namespace MlSolutions\NovaDashboard\Card;
 
 use Closure;
 use Laravel\Nova\Card;

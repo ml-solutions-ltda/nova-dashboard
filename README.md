@@ -1,12 +1,12 @@
 # Nova Dashboard
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/digital-creative/nova-dashboard)](https://packagist.org/packages/digital-creative/nova-dashboard)
-[![Total Downloads](https://img.shields.io/packagist/dt/digital-creative/nova-dashboard)](https://packagist.org/packages/digital-creative/nova-dashboard)
-[![License](https://img.shields.io/packagist/l/digital-creative/nova-dashboard)](https://github.com/dcasia/nova-dashboard/blob/main/LICENSE)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/mlsolutions/nova-dashboard)](https://packagist.org/packages/mlsolutions/nova-dashboard)
+[![Total Downloads](https://img.shields.io/packagist/dt/mlsolutions/nova-dashboard)](https://packagist.org/packages/mlsolutions/nova-dashboard)
+[![License](https://img.shields.io/packagist/l/mlsolutions/nova-dashboard)](https://github.com/ml-solutions-ltda/nova-dashboard/blob/main/LICENSE)
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-dashboard/main/screenshots/dark.png">
-  <img alt="Laravel Nova Dashboard In Action" src="https://raw.githubusercontent.com/dcasia/nova-dashboard/main/screenshots/light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ml-solutions-ltda/nova-dashboard/main/screenshots/dark.png">
+  <img alt="Laravel Nova Dashboard In Action" src="https://raw.githubusercontent.com/ml-solutions-ltda/nova-dashboard/main/screenshots/light.png">
 </picture>
 
 The missing dashboard for Laravel Nova!
@@ -16,15 +16,15 @@ The missing dashboard for Laravel Nova!
 You can install the package via composer:
 
 ```
-composer require digital-creative/nova-dashboard
+composer require mlsolutions/nova-dashboard
 ```
 
 ## List of current available widgets:
 
-- Value Widget: [https://github.com/dcasia/value-widget](https://github.com/dcasia/value-widget)
-- Table Widget: [https://github.com/dcasia/table-widget](https://github.com/dcasia/table-widget)
-- ChartJs Widget: [https://github.com/dcasia/chartjs-widget](https://github.com/dcasia/chartjs-widget)
-- [Add your widget here.](https://github.com/dcasia/nova-dashboard/edit/main/README.md)
+- Value Widget: [https://github.com/ml-solutions-ltda/value-widget](https://github.com/ml-solutions-ltda/value-widget)
+- Table Widget: [https://github.com/ml-solutions-ltda/table-widget](https://github.com/ml-solutions-ltda/table-widget)
+- ChartJs Widget: [https://github.com/ml-solutions-ltda/chartjs-widget](https://github.com/ml-solutions-ltda/chartjs-widget)
+- [Add your widget here.](https://github.com/ml-solutions-ltda/nova-dashboard/edit/main/README.md)
 
 ## Usage
 
@@ -32,8 +32,8 @@ The dashboard itself is simply a standard Laravel Nova card, so you can use it e
 or within the default Nova dashboard functionality.
 
 ```php
-use DigitalCreative\NovaDashboard\Card\NovaDashboard;
-use DigitalCreative\NovaDashboard\Card\View;
+use MlSolutions\NovaDashboard\Card\NovaDashboard;
+use MlSolutions\NovaDashboard\Card\View;
 use Laravel\Nova\Dashboards\Main as Dashboard;
 
 class Main extends Dashboard
@@ -117,8 +117,8 @@ $widget->minHeight(1);
 ## Filters
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/dcasia/nova-dashboard/main/screenshots/filter-dark.png">
-  <img alt="Filters Preview" src="https://raw.githubusercontent.com/dcasia/nova-dashboard/main/screenshots/filter-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ml-solutions-ltda/nova-dashboard/main/screenshots/filter-dark.png">
+  <img alt="Filters Preview" src="https://raw.githubusercontent.com/ml-solutions-ltda/nova-dashboard/main/screenshots/filter-light.png">
 </picture>
 
 These are standard nova filter classes with 1 simple difference, the method `->apply()` does not get called by default. Why?
@@ -136,7 +136,7 @@ class ExampleFilter extends BooleanFilter
 }
 ```
 
-Usually your widget `->value()` function will receive an instance of `DigitalCreative\NovaDashboard\Filters` this class 
+Usually your widget `->value()` function will receive an instance of `MlSolutions\NovaDashboard\Filters` this class 
 contains a method for retrieving the value of any given filter, for example:
 
 ```php
@@ -171,22 +171,22 @@ Please give a ⭐️ if this project helped you!
 
 ### Other Packages You Might Like
 
-- [Nova Dashboard](https://github.com/dcasia/nova-dashboard) - The missing dashboard for Laravel Nova!
-- [Nova Welcome Card](https://github.com/dcasia/nova-welcome-card) - A configurable version of the `Help card` that comes with Nova.
-- [Icon Action Toolbar](https://github.com/dcasia/icon-action-toolbar) - Replaces the default boring action menu with an inline row of icon-based actions.
-- [Expandable Table Row](https://github.com/dcasia/expandable-table-row) - Provides an easy way to append extra data to each row of your resource tables.
-- [Collapsible Resource Manager](https://github.com/dcasia/collapsible-resource-manager) - Provides an easy way to order and group your resources on the sidebar.
-- [Resource Navigation Tab](https://github.com/dcasia/resource-navigation-tab) - Organize your resource fields into tabs.
-- [Resource Navigation Link](https://github.com/dcasia/resource-navigation-link) - Create links to internal or external resources.
-- [Nova Mega Filter](https://github.com/dcasia/nova-mega-filter) - Display all your filters in a card instead of a tiny dropdown!
-- [Nova Pill Filter](https://github.com/dcasia/nova-pill-filter) - A Laravel Nova filter that renders into clickable pills.
-- [Nova Slider Filter](https://github.com/dcasia/nova-slider-filter) - A Laravel Nova filter for picking range between a min/max value.
-- [Nova Range Input Filter](https://github.com/dcasia/nova-range-input-filter) - A Laravel Nova range input filter.
-- [Nova FilePond](https://github.com/dcasia/nova-filepond) - A Nova field for uploading File, Image and Video using Filepond.
-- [Custom Relationship Field](https://github.com/dcasia/custom-relationship-field) - Emulate HasMany relationship without having a real relationship set between resources.
-- [Column Toggler](https://github.com/dcasia/column-toggler) - A Laravel Nova package that allows you to hide/show columns in the index view.
-- [Batch Edit Toolbar](https://github.com/dcasia/batch-edit-toolbar) - Allows you to update a single column of a resource all at once directly from the index page.
+- [Nova Dashboard](https://github.com/ml-solutions-ltda/nova-dashboard) - The missing dashboard for Laravel Nova!
+- [Nova Welcome Card](https://github.com/ml-solutions-ltda/nova-welcome-card) - A configurable version of the `Help card` that comes with Nova.
+- [Icon Action Toolbar](https://github.com/ml-solutions-ltda/icon-action-toolbar) - Replaces the default boring action menu with an inline row of icon-based actions.
+- [Expandable Table Row](https://github.com/ml-solutions-ltda/expandable-table-row) - Provides an easy way to append extra data to each row of your resource tables.
+- [Collapsible Resource Manager](https://github.com/ml-solutions-ltda/collapsible-resource-manager) - Provides an easy way to order and group your resources on the sidebar.
+- [Resource Navigation Tab](https://github.com/ml-solutions-ltda/resource-navigation-tab) - Organize your resource fields into tabs.
+- [Resource Navigation Link](https://github.com/ml-solutions-ltda/resource-navigation-link) - Create links to internal or external resources.
+- [Nova Mega Filter](https://github.com/ml-solutions-ltda/nova-mega-filter) - Display all your filters in a card instead of a tiny dropdown!
+- [Nova Pill Filter](https://github.com/ml-solutions-ltda/nova-pill-filter) - A Laravel Nova filter that renders into clickable pills.
+- [Nova Slider Filter](https://github.com/ml-solutions-ltda/nova-slider-filter) - A Laravel Nova filter for picking range between a min/max value.
+- [Nova Range Input Filter](https://github.com/ml-solutions-ltda/nova-range-input-filter) - A Laravel Nova range input filter.
+- [Nova FilePond](https://github.com/ml-solutions-ltda/nova-filepond) - A Nova field for uploading File, Image and Video using Filepond.
+- [Custom Relationship Field](https://github.com/ml-solutions-ltda/custom-relationship-field) - Emulate HasMany relationship without having a real relationship set between resources.
+- [Column Toggler](https://github.com/ml-solutions-ltda/column-toggler) - A Laravel Nova package that allows you to hide/show columns in the index view.
+- [Batch Edit Toolbar](https://github.com/ml-solutions-ltda/batch-edit-toolbar) - Allows you to update a single column of a resource all at once directly from the index page.
 
 ## License
 
-The MIT License (MIT). Please see [License File](https://raw.githubusercontent.com/dcasia/nova-dashboard/main/LICENSE) for more information.
+The MIT License (MIT). Please see [License File](https://raw.githubusercontent.com/ml-solutions-ltda/nova-dashboard/main/LICENSE) for more information.

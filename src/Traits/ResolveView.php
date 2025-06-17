@@ -2,13 +2,13 @@
 
 declare(strict_types = 1);
 
-namespace DigitalCreative\NovaDashboard\Traits;
+namespace MlSolutions\NovaDashboard\Traits;
 
 use Closure;
-use DigitalCreative\NovaDashboard\Card\NovaDashboard;
-use DigitalCreative\NovaDashboard\Card\View;
-use DigitalCreative\NovaDashboard\Card\Widget;
-use DigitalCreative\NovaDashboard\Http\Controllers\WidgetController;
+use MlSolutions\NovaDashboard\Card\NovaDashboard;
+use MlSolutions\NovaDashboard\Card\View;
+use MlSolutions\NovaDashboard\Card\Widget;
+use MlSolutions\NovaDashboard\Http\Controllers\WidgetController;
 use Laravel\Nova\Http\Controllers\CardController;
 use Laravel\Nova\Http\Controllers\DashboardController;
 use Laravel\Nova\Http\Requests\NovaRequest;
