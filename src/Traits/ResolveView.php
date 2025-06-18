@@ -24,21 +24,22 @@ trait ResolveView
 
         $cards = match (true) {
             /**
-             * When there is a "resource" param on the url, we are able to infer the Resource from it
+             * When there is a "resource" param on the URL, we are able to infer the Resource from it
              */
-            !is_null($request->route('resource')) => $request->newResource()->availableCards($request),
+            !is_null($request->route('resource')) => collect($request->newResource()->cards()),
 
             /**
              * If the dashboard is placed on a Nova Resource we need to find which resource was it
              * And retrieve its available cards
              */
-            $controller instanceof CardController && $resolver => $resolver()->availableCards($request),
+            $controller instanceof CardController && $resolver => collect($resolver()->cards()),
 
             /**
-             * When it is nova dashboard, we retrieve the cards from global nova helper function
+             * When it is a Nova Dashboard, retrieve the available dashboard cards
              */
             $controller instanceof WidgetController,
-            $controller instanceof DashboardController => Nova::allAvailableDashboardCards($request),
+                $controller instanceof DashboardController => collect(Nova::dashboards())
+                ->flatMap(fn ($dashboard) => $dashboard->cards()),
 
             /**
              * ¯\_(ツ)_/¯
@@ -48,9 +49,10 @@ trait ResolveView
 
         return $cards
             ->whereInstanceOf(NovaDashboard::class)
-            ->flatMap(fn (NovaDashboard $dashboard) => $dashboard->meta[ 'views' ])
+            ->flatMap(fn (NovaDashboard $dashboard) => $dashboard->meta['views'])
             ->firstWhere(fn (View $view) => !$viewKey || $view->key() === $viewKey);
     }
+
 
     public function findWidgetByKey(string $key): ?Widget
     {
