@@ -15,5 +15,8 @@
         "tailwindcss": "^3.3.5",
         "vue-collapsed": "^1.2.8",
         "vue-loader": "^17.2.2"
+    },
+    "dependencies": {
+        "laravel-nova-ui": "^0.4.12"
     }
 }
