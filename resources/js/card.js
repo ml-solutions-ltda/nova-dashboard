@@ -6,7 +6,7 @@ Nova.booting(app => {
     const componentFn = app.component
 
     registerDashboardMixin(
-        Nova.pages[ 'Nova.Dashboard' ].components[ 'DashboardView' ],
+        Nova.pages[ 'Nova.Dashboard' ],
     )
 
     app.component = function (name, component) {

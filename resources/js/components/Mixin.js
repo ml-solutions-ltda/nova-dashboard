@@ -44,10 +44,10 @@ export function registerMixin(component) {
 
 export function registerDashboardMixin(component) {
 
-    const originalDashboardEndpoint = component.computed.dashboardEndpoint
+    const originalDashboardEndpoint = `/nova-api/dashboards/${component.props.name.default}`
 
     component.computed.dashboardEndpoint = function () {
-        return originalDashboardEndpoint.call(this) + window.location.search
+        return originalDashboardEndpoint + window.location.search
     }
 
 }
