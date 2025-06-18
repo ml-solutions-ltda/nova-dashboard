@@ -38,7 +38,7 @@ trait ResolveView
              * When it is a Nova Dashboard, retrieve the available dashboard cards
              */
             $controller instanceof WidgetController,
-                $controller instanceof DashboardController => collect(Nova::dashboards())
+                $controller instanceof DashboardController => collect(Nova::$dashboards)
                 ->flatMap(fn ($dashboard) => $dashboard->cards()),
 
             /**
