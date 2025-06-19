@@ -5,10 +5,6 @@ Nova.booting(app => {
 
     const componentFn = app.component
 
-    registerDashboardMixin(
-        Nova.pages[ 'Nova.Dashboard' ],
-    )
-
     app.component = function (name, component) {
 
         if (name.endsWith('widget')) {
