@@ -32,8 +32,10 @@ The dashboard itself is simply a standard Laravel Nova card, so you can use it e
 or within the default Nova dashboard functionality.
 
 ```php
+use App\Models\User;
 use MlSolutions\NovaDashboard\Card\NovaDashboard;
 use MlSolutions\NovaDashboard\Card\View;
+use MlSolutions\NovaDashboard\Filters;
 use Laravel\Nova\Dashboards\Main as Dashboard;
 
 class Main extends Dashboard
@@ -55,7 +57,17 @@ class Main extends Dashboard
                             LocationFilter::make(),
                             UserTypeFilter::make(),
                             DateRangeFilter::make(),
-                        ]);
+                        ])
+                        ->download(
+                            resolver: function ($request, View $view, string $format, Filters $filters) {
+                                return $filters
+                                    ->applyToQueryBuilder(User::query())
+                                    ->select('name', 'email', 'created_at');
+                            },
+                            label: 'Download Report',
+                            filename: 'website-performance',
+                            formats: ['csv', 'excel'],
+                        );
                 }),
         ];
     }
@@ -164,6 +176,86 @@ class SessionDuration extends ValueWidget
 ```
 
 `->applyToQueryBuilder()` will run every filter through the default filter logic of nova.
+
+## Downloads
+
+Views can expose a report download button that always uses the filters currently applied in the dashboard.
+
+```php
+use App\Models\User;
+use MlSolutions\NovaDashboard\Card\View;
+use MlSolutions\NovaDashboard\Downloads\DownloadResult;
+use MlSolutions\NovaDashboard\Filters;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+$view->download(
+    resolver: function (Filters $filters, NovaRequest $request, View $view, string $format) {
+        return $filters
+            ->applyToQueryBuilder(User::query())
+            ->select('name', 'email', 'created_at');
+    },
+    label: 'Download Users',
+    filename: 'users-report',
+    formats: ['csv', 'excel'],
+);
+```
+
+The resolver receives the current dashboard filter state, not a prebuilt query result.
+
+Available callback arguments:
+
+- `NovaRequest $request`: the active Nova request.
+- `View $view`: the current dashboard view.
+- `string $format`: either `csv` or `excel`.
+- `Filters $filters`: the same filter object used by widgets.
+- `array $filterValues`: all current filters serialized as `class`, `name`, and `value`.
+
+This matches how dashboards are commonly built in real projects such as `socialnexa-nova`: widgets read filter values and then assemble the query or service call that produces the final dataset.
+
+Accepted resolver return types:
+
+- `Eloquent\Builder` or `Query\Builder`: the package runs the query and exports the current result set.
+- `Collection`, `array` or any iterable list of rows: columns are inferred automatically.
+- `DownloadResult`: use it when you want full control over columns, row order or the exported filename.
+- An array with `rows`, optional `columns`, and optional `filename`.
+
+Example with custom column order:
+
+```php
+$view->download(
+    resolver: function (Filters $filters, NovaRequest $request, View $view, string $format) {
+        $rows = $filters
+            ->applyToQueryBuilder(User::query())
+            ->get()
+            ->map(fn (User $user) => [
+                'Name' => $user->name,
+                'Email' => $user->email,
+                'Joined At' => $user->created_at?->toDateString(),
+            ]);
+
+        return DownloadResult::make(
+            columns: ['Name', 'Email', 'Joined At'],
+            rows: $rows,
+            filename: 'filtered-users',
+        );
+    },
+);
+```
+
+Example using the raw serialized filter values:
+
+```php
+$view->download(
+    resolver: function (array $filterValues) {
+        $dateRange = data_get($filterValues, App\Nova\Filters\CreateAtDateFilter::class . '.value');
+
+        // Build your own query/service call from the active filter values.
+        return [];
+    },
+);
+```
+
+`excel` exports a native Excel-compatible `.xls` file, while `csv` exports UTF-8 CSV with BOM for spreadsheet compatibility.
 
 ## ⭐️ Show Your Support
 

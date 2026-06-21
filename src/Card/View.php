@@ -4,7 +4,10 @@ declare(strict_types = 1);
 
 namespace MlSolutions\NovaDashboard\Card;
 
+use Closure;
 use MlSolutions\NovaDashboard\Traits\ResolveView;
+use MlSolutions\NovaDashboard\Downloads\Download;
+use MlSolutions\NovaDashboard\Downloads\DownloadResult;
 use Illuminate\Support\Collection;
 use JsonSerializable;
 use Laravel\Nova\AuthorizedToSee;
@@ -19,6 +22,8 @@ class View implements JsonSerializable
     use Metable;
     use ResolveView;
     use AuthorizedToSee;
+
+    private ?Download $download = null;
 
     public function __construct(
         private readonly string $name,
@@ -66,6 +71,20 @@ class View implements JsonSerializable
         return $this->addFilter(...$filters);
     }
 
+    public function download(
+        Closure $resolver,
+        string $label = 'Download',
+        string $filename = 'report',
+        array $formats = [ 'csv', 'excel' ],
+    ): self
+    {
+        $this->download = Download::make($resolver, $label, $filename, $formats);
+
+        return $this->withMeta([
+            'download' => $this->download->meta(),
+        ]);
+    }
+
     public function icon(string $icon): self
     {
         return $this->withMeta([ 'icon' => $icon ]);
@@ -94,6 +113,28 @@ class View implements JsonSerializable
     public function widgets(): Collection
     {
         return collect(data_get($this->meta, 'widgets', []));
+    }
+
+    public function downloadResult(string $format, NovaRequest $request): DownloadResult
+    {
+        $download = $this->download;
+
+        if (!$download) {
+            abort(404, 'This view does not support downloads.');
+        }
+
+        $filters = $this->resolveFilters($request);
+
+        return DownloadResult::fromData(
+            app()->call($download->resolver(), [
+                'request' => $request,
+                'view' => $this,
+                'format' => $format,
+                'filters' => $filters,
+                'filterValues' => $filters->toArray(),
+            ]),
+            data_get($download->meta(), 'filename'),
+        );
     }
 
     public function jsonSerialize(): array

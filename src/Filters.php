@@ -55,4 +55,25 @@ class Filters
 
         return $builder;
     }
+
+    public function toArray(): array
+    {
+        return $this->filterDecoder
+            ->filters()
+            ->mapWithKeys(function (ApplyFilter $filter): array {
+                $key = $filter->filter::class;
+                $name = method_exists($filter->filter, 'name')
+                    ? $filter->filter->name()
+                    : class_basename($key);
+
+                return [
+                    $key => [
+                        'class' => $key,
+                        'name' => $name,
+                        'value' => $filter->value,
+                    ],
+                ];
+            })
+            ->all();
+    }
 }

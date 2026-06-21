@@ -61,6 +61,52 @@
 
             <div class="toolbar-button pr-2 md:pr-3 flex flex-1 justify-between filter__header">
 
+                <div v-if="downloadEnabled" class="mr-2">
+
+                    <Dropdown placement="bottom-end">
+
+                        <Button
+                            class="shadow-none"
+                            variant="ghost"
+                            padding="tight"
+                            :disabled="isDownloading"
+                            :aria-label="activeView.download.label">
+
+                            <div class="flex items-center">
+                                <Icon name="arrow-down-tray" class="w-4 h-4"/>
+                                <span class="ml-1">{{ activeView.download.label }}</span>
+                            </div>
+
+                        </Button>
+
+                        <template #menu>
+
+                            <DropdownMenu width="auto" class="px-1">
+
+                                <div class="py-1">
+
+                                    <DropdownMenuItem
+                                        v-for="format in activeView.download.formats"
+                                        :key="format"
+                                        as="button"
+                                        class="border-none"
+                                        @click="() => download(format)"
+                                        :disabled="isDownloading">
+
+                                        {{ formatLabel(format) }}
+
+                                    </DropdownMenuItem>
+
+                                </div>
+
+                            </DropdownMenu>
+
+                        </template>
+
+                    </Dropdown>
+
+                </div>
+
                 <button
                     v-if="!filtersAreApplied"
                     class="py-2 w-full text-xs uppercase tracking-wide text-center font-bold focus:outline-none relative flex justify-end items-center"
@@ -159,6 +205,7 @@
         data() {
             return {
                 expanded: false,
+                downloadingFormat: null,
             }
         },
         watch: {
@@ -201,13 +248,65 @@
                 }
 
             },
+            formatLabel(format) {
+                return format === 'excel' ? 'Excel (.xls)' : 'CSV (.csv)'
+            },
+            async download(format) {
+
+                const data = new FormData
+
+                data.append(`${ this.resourceName }_filter`, this.$store.getters[ `${ this.resourceName }/currentEncodedFilters` ])
+                data.append('view', this.resourceName)
+                data.append('format', format)
+
+                this.downloadingFormat = format
+
+                const extraParam = this.resource ? `/${ this.resource }` : ''
+
+                try {
+
+                    const response = await Nova.request({
+                        method: 'post',
+                        url: `/nova-vendor/nova-dashboard/download${ extraParam }`,
+                        data,
+                        responseType: 'blob',
+                    })
+
+                    const blob = new Blob([ response.data ], {
+                        type: response.headers['content-type'],
+                    })
+                    const url = window.URL.createObjectURL(blob)
+                    const link = document.createElement('a')
+                    const disposition = response.headers['content-disposition'] || ''
+                    const match = disposition.match(/filename="?([^"]+)"?/)
+
+                    link.href = url
+                    link.download = match?.[1] || `${ this.activeView.download.filename }.${ format === 'excel' ? 'xls' : 'csv' }`
+                    document.body.appendChild(link)
+                    link.click()
+                    link.remove()
+                    window.URL.revokeObjectURL(url)
+
+                } catch (error) {
+                    Nova.error(error?.response?.data?.message || __('Unable to download the report.'))
+                } finally {
+                    this.downloadingFormat = null
+                }
+
+            },
         },
         computed: {
+            downloadEnabled() {
+                return this.activeView?.download?.enabled === true
+            },
             filtersAreApplied() {
                 return this.$store.getters[ `${ this.resourceName }/filtersAreApplied` ]
             },
             initialEncodedFilters() {
                 return this.queryStringParams[ this.filterParameter ] || ''
+            },
+            isDownloading() {
+                return this.downloadingFormat !== null
             },
             pageParameter() {
                 return 0

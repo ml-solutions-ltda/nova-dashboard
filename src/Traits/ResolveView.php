@@ -8,6 +8,8 @@ use Closure;
 use MlSolutions\NovaDashboard\Card\NovaDashboard;
 use MlSolutions\NovaDashboard\Card\View;
 use MlSolutions\NovaDashboard\Card\Widget;
+use MlSolutions\NovaDashboard\Filters;
+use MlSolutions\NovaDashboard\Http\Controllers\DownloadController;
 use MlSolutions\NovaDashboard\Http\Controllers\WidgetController;
 use Laravel\Nova\Http\Controllers\CardController;
 use Laravel\Nova\Http\Controllers\DashboardController;
@@ -38,6 +40,7 @@ trait ResolveView
              * When it is a Nova Dashboard, retrieve the available dashboard cards
              */
             $controller instanceof WidgetController,
+                $controller instanceof DownloadController,
                 $controller instanceof DashboardController => collect(Nova::$dashboards)
                 ->flatMap(fn ($dashboard) => $dashboard->cards()),
 
@@ -67,5 +70,10 @@ trait ResolveView
         $widget?->configure($request);
 
         return $widget?->resolveValue($request, $this);
+    }
+
+    public function resolveFilters(NovaRequest $request): Filters
+    {
+        return Filters::fromRequest($request, $this->filters());
     }
 }
