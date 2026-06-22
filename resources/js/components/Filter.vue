@@ -59,9 +59,36 @@
 
             </Dropdown>
 
-            <div class="toolbar-button pr-2 md:pr-3 flex flex-1 justify-between filter__header">
+            <div class="toolbar-button pr-2 md:pr-3 flex flex-1 items-center justify-end gap-2 filter__header">
 
-                <div v-if="downloadEnabled" class="mr-2">
+                <button
+                    v-if="!filtersAreApplied"
+                    class="py-2 text-xs uppercase tracking-wide font-bold focus:outline-none relative flex justify-end items-center"
+                    @click="expanded = !expanded">
+
+                    <div>
+                        {{ __('Filters') }}
+                    </div>
+
+                    <Icon name="chevron-down"
+                          class="ml-1 transition-all w-4 h-4"
+                          :class="{ 'rotate-180': expanded }"/>
+
+                </Button>
+
+                <div v-if="filtersAreApplied">
+
+                    <button
+                        class="py-2 block text-xs uppercase tracking-wide font-bold focus:outline-none cursor-pointer"
+                        @click="clearFilters">
+
+                        {{ __('Reset Filters') }}
+
+                    </button>
+
+                </div>
+
+                <div v-if="downloadEnabled">
 
                     <Dropdown placement="bottom-end">
 
@@ -104,33 +131,6 @@
                         </template>
 
                     </Dropdown>
-
-                </div>
-
-                <button
-                    v-if="!filtersAreApplied"
-                    class="py-2 w-full text-xs uppercase tracking-wide text-center font-bold focus:outline-none relative flex justify-end items-center"
-                    @click="expanded = !expanded">
-
-                    <div>
-                        {{ __('Filters') }}
-                    </div>
-
-                    <Icon name="chevron-down"
-                          class="ml-1 transition-all w-4 h-4"
-                          :class="{ 'rotate-180': expanded }"/>
-
-                </Button>
-
-                <div v-if="filtersAreApplied" class="w-full">
-
-                    <button
-                        class="py-2 ml-auto block text-xs uppercase tracking-wide font-bold focus:outline-none cursor-pointer"
-                        @click="clearFilters">
-
-                        {{ __('Reset Filters') }}
-
-                    </button>
 
                 </div>
 
